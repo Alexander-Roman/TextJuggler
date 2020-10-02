@@ -4,7 +4,17 @@ public class StringTextProcessor implements TextProcessor {
 
     private static final String WORD_SEPARATOR = "\\W";
 
-    //@Override
+    @Override
+    public String replaceCharInEveryWord(String source, int k, char replacement) {
+        String[] words = source.split(WORD_SEPARATOR);
+        String result = source;
+        for (String word : words) {
+            String replacementString = replaceCharAt(word, k, replacement);
+            result = result.replace(word, replacementString);
+        }
+        return result;
+    }
+
     private String replaceCharAt(String source, int k, char replacement) {
         if (source.length() < k) {
             return source;
@@ -15,17 +25,6 @@ public class StringTextProcessor implements TextProcessor {
         if (source.length() > k) {
             String ending = source.substring(k);
             result = result.concat(ending);
-        }
-        return result;
-    }
-
-    @Override
-    public String replaceCharInEveryWord(String source, int k, char replacement) {
-        String[] words = source.split(WORD_SEPARATOR);
-        String result = source;
-        for (String word : words) {
-            String replacementString = replaceCharAt(word, k, replacement);
-            result = result.replace(word, replacementString);
         }
         return result;
     }
