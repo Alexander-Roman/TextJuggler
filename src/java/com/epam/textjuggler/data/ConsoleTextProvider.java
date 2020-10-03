@@ -1,6 +1,5 @@
 package com.epam.textjuggler.data;
 
-import com.epam.textjuggler.exception.DataException;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

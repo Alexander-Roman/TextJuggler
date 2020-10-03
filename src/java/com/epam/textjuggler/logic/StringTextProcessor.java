@@ -2,7 +2,7 @@ package com.epam.textjuggler.logic;
 
 public class StringTextProcessor implements TextProcessor {
 
-    private static final String WORD_SEPARATOR = "\\W";
+    private static final String WORD_SEPARATOR = "[^A-Za-z]";
 
     @Override
     public String replaceCharInEveryWord(String source, int k, char replacement) {
@@ -16,7 +16,7 @@ public class StringTextProcessor implements TextProcessor {
     }
 
     private String replaceCharAt(String source, int k, char replacement) {
-        if (source.length() < k) {
+        if (source.length() < k || k < 1) {
             return source;
         }
         String result = source.substring(0, k - 1);

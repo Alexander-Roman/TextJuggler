@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 
 public class RegExTextProcessor implements TextProcessor {
 
-    private static final String WORD_REGEX = "\\w+";
+    private static final String WORD_REGEX = "[A-Za-z]+";
 
     @Override
     public String replaceCharInEveryWord(String source, int k, char replacement) {
@@ -16,7 +16,7 @@ public class RegExTextProcessor implements TextProcessor {
     }
 
     private String replaceCharAt(String source, int k, char replacement) {
-        if (source.length() < k) {
+        if (source.length() < k || k < 1) {
             return source;
         }
         k--;

@@ -10,37 +10,51 @@ package com.epam.textjuggler.main;
 import com.epam.textjuggler.data.InputType;
 import com.epam.textjuggler.data.TextProvider;
 import com.epam.textjuggler.data.TextProviderFactory;
+import com.epam.textjuggler.data.TextProviderFactoryCreator;
 import com.epam.textjuggler.exception.DataException;
+import com.epam.textjuggler.logic.ProcessorType;
 import com.epam.textjuggler.logic.TextProcessor;
 import com.epam.textjuggler.logic.TextProcessorFactory;
+import com.epam.textjuggler.view.OutputType;
 import com.epam.textjuggler.view.TextOutput;
 import com.epam.textjuggler.view.TextOutputFactory;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class Runner {
 
-    public static void main(String[] args) throws DataException {
+    private static final Logger LOGGER = LogManager.getLogger();
+    private static final InputType INPUT_TYPE = InputType.FILE;
+    private static final OutputType OUTPUT_TYPE = OutputType.CONSOLE;
+    private static final ProcessorType PROCESSOR_TYPE = ProcessorType.CHAR_SEQUENCE;
+    private static final int ORDER_NUMBER_K = 6;
+    private static final char REPLACEMENT_CHAR = '_';
 
-        //String inputTypeValue = args[0];
-        String inputTypeValue = "FILE";
+    public static void main(String[] args) {
 
-        InputType inputType = InputType.valueOf(inputTypeValue);
-        TextProvider textProvider = TextProviderFactory.createTextProviderByInputType(inputType);
+        try {
+            process();
+        } catch (DataException e) {
+            LOGGER.log(Level.ERROR, e.getMessage(), e);
+        }
+
+    }
+
+    private static void process() throws DataException {
+
+        TextProviderFactory textProviderFactory = TextProviderFactoryCreator.createTextProviderFactoryByInputType(INPUT_TYPE);
+        TextProvider textProvider = textProviderFactory.create();
         String text = textProvider.getString();
 
-        TextOutputFactory textOutputFactory = new TextOutputFactory();
-        TextOutput textOutput = textOutputFactory.createTextOutput();
+        TextOutput textOutput = TextOutputFactory.createTextOutputByOutputType(OUTPUT_TYPE);
+        LOGGER.log(Level.INFO, "Before changes:");
         textOutput.displayText(text);
 
-        //int k = Integer.parseInt(args[1]);
-        int k = 6;
-        //char replacement = args[2].charAt(0);
-        char replacement = '_';
+        TextProcessor processor = TextProcessorFactory.createTextProcessorByType(PROCESSOR_TYPE);
+        text = processor.replaceCharInEveryWord(text, ORDER_NUMBER_K, REPLACEMENT_CHAR);
 
-        TextProcessorFactory textProcessorFactory = new TextProcessorFactory();
-        TextProcessor processor = textProcessorFactory.createTextProcessor();
-        text = processor.replaceCharInEveryWord(text, k, replacement);
-
+        LOGGER.log(Level.INFO, "After changes:");
         textOutput.displayText(text);
-
     }
 }
