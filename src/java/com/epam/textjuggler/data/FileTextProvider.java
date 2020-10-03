@@ -16,13 +16,11 @@ public class FileTextProvider implements TextProvider {
 
     @Override
     public String getString() throws DataException {
-        String input = "";
         try (BufferedInputStream bufferedInputStream = new BufferedInputStream(new FileInputStream(fileName))) {
             byte[] buffer = bufferedInputStream.readAllBytes();
-            input = new  String(buffer);
+            return new String(buffer);
         } catch (IOException e) {
             throw new DataException("File reading problem", e);
         }
-        return input;
     }
 }
