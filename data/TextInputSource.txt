@@ -1,0 +1,4 @@
+Java EE 7 was released in June 2013 and provides a simple, easy-to-use, and complete
+stack for building such web and enterprise applications. The previous versions of the
+platform, starting with Java EE 5 and continuing with Java EE 6, took the first steps in
+providing a simplified developer experience.
